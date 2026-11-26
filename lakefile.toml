@@ -1,0 +1,104 @@
+name = "lean_proofs"
+defaultTargets = ["Pca"]
+
+[leanOptions]
+autoImplicit = false
+relaxedAutoImplicit = false
+
+# Mathlib and its dependencies are reused from the local, already built
+# checkout of formal-conjectures (no download, no rebuild).
+
+[[require]]
+name = "mathlib"
+path = "/Users/manfred/github/formal-conjectures/.lake/packages/mathlib"
+
+[[require]]
+name = "batteries"
+path = "/Users/manfred/github/formal-conjectures/.lake/packages/batteries"
+
+[[require]]
+name = "Qq"
+path = "/Users/manfred/github/formal-conjectures/.lake/packages/Qq"
+
+[[require]]
+name = "aesop"
+path = "/Users/manfred/github/formal-conjectures/.lake/packages/aesop"
+
+[[require]]
+name = "proofwidgets"
+path = "/Users/manfred/github/formal-conjectures/.lake/packages/proofwidgets"
+
+[[require]]
+name = "importGraph"
+path = "/Users/manfred/github/formal-conjectures/.lake/packages/importGraph"
+
+[[require]]
+name = "LeanSearchClient"
+path = "/Users/manfred/github/formal-conjectures/.lake/packages/LeanSearchClient"
+
+[[require]]
+name = "plausible"
+path = "/Users/manfred/github/formal-conjectures/.lake/packages/plausible"
+
+[[require]]
+name = "Cli"
+path = "/Users/manfred/github/formal-conjectures/.lake/packages/Cli"
+
+# ---------------------------------------------------------------- combinatorial geometry
+# Pseudocircles, max triangles (doc/pca/pca.md). Default target.
+[[lean_lib]]
+name = "Pca"
+srcDir = "CombinatorialGeometry"
+
+# native_decide checks on the n <= 4 instances (minutes). `lake build PcaInstances`.
+[[lean_lib]]
+name = "PcaInstances"
+srcDir = "CombinatorialGeometry"
+roots = ["PcaInstances"]
+
+# Snoeyink-Hershberger sweep in graph language (doc/pca/sweep.md); also built by `Pca`.
+[[lean_lib]]
+name = "PcaSweep"
+srcDir = "CombinatorialGeometry"
+roots = ["PcaSweep"]
+globs = ["PcaSweep", "Pca.Sweep.+"]
+
+# Great-pseudocircle (projective pseudoline) arrangements, Ringel, Levi (doc/pca/great.md).
+[[lean_lib]]
+name = "PcaGreat"
+srcDir = "CombinatorialGeometry"
+roots = ["PcaGreat"]
+globs = ["PcaGreat", "Pca.Great.+"]
+
+# Triangle flip connectivity of intersecting arrangements (FROS, doc/pca/flipgraph.md).
+[[lean_lib]]
+name = "PcaFlipGraph"
+srcDir = "CombinatorialGeometry"
+roots = ["PcaFlipGraph"]
+globs = ["PcaFlipGraph", "Pca.FlipGraph.+"]
+
+# Circularizability, Felsner-Scheucher arXiv:1712.02149 (doc/pca/circ.md). WIP.
+[[lean_lib]]
+name = "PcaCirc"
+srcDir = "CombinatorialGeometry"
+roots = ["PcaCirc"]
+globs = ["PcaCirc", "Pca.Circ.+"]
+
+# Non-circularizability certificates (doc/pca/noncirc.md). `lake build NonCirc`.
+[[lean_lib]]
+name = "NonCirc"
+srcDir = "CombinatorialGeometry"
+roots = ["NonCirc"]
+
+# All generated certificates (minutes). `lake build NonCircCerts`.
+[[lean_lib]]
+name = "NonCircCerts"
+srcDir = "CombinatorialGeometry"
+globs = ["NonCirc.Cert.+"]
+
+# ---------------------------------------------------------------- stochastic geometry
+# k-holes in random point sets, Theorem 7 of arXiv:2111.12533 (doc/kholes/kholes.md). `lake build KHoles`.
+[[lean_lib]]
+name = "KHoles"
+srcDir = "StochasticGeometry"
+globs = ["KHoles.+"]
